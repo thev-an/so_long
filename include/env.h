@@ -6,7 +6,7 @@
 /*   By: antheven <antheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 14:32:52 by antheven          #+#    #+#             */
-/*   Updated: 2021/11/23 00:05:03 by antheven         ###   ########.fr       */
+/*   Updated: 2021/11/23 17:58:25 by antheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ struct s_env
 	void	*display_ptr;
 	void	*window;
 	t_img	*screen;
+	t_kb	*keyboard;
 	t_list	*tex;
 	t_mouse	mouse;
 };

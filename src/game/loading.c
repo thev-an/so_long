@@ -14,6 +14,7 @@
 #include "mlx.h"
 #include "env.h"
 #include "loop.h"
+#include "keyboard.h"
 
 int	get_new_texture(t_env *env)
 {
@@ -80,5 +81,7 @@ int	load_game(t_env *env)
 	env->screen = get_new_image(env, 800, 600, 0x00FF00);
 	mlx_loop_hook(env->display_ptr, loop, env);
 	mlx_hook(env->window, 6, 1L<<6, mouse_motion, env);
+	mlx_hook(env->window, 2, 1L<<0, key_press, env);
+	mlx_hook(env->window, 3, 1L<<1, key_release, env);
 	mlx_loop(env->display_ptr);
 }
