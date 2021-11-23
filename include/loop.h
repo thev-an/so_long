@@ -6,7 +6,7 @@
 /*   By: antheven <antheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 14:36:26 by antheven          #+#    #+#             */
-/*   Updated: 2021/11/20 14:36:56 by antheven         ###   ########.fr       */
+/*   Updated: 2021/11/23 00:02:46 by antheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,6 @@
 # define LOOP_H
 
 int	loop(t_env *env);
+int	mouse_motion(int x, int y, t_env *param);
 
 #endif

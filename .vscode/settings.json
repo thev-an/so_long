@@ -1,5 +1,8 @@
 {
 	"files.associations": {
-		"loop.h": "c"
+		"loop.h": "c",
+		"mlx.h": "c",
+		"env.h": "c",
+		"display.h": "c"
 	}
 }

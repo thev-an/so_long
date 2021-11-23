@@ -6,7 +6,7 @@
 #    By: antheven <antheven@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/24 19:16:38 by antheven          #+#    #+#              #
-#    Updated: 2021/11/20 14:57:58 by antheven         ###   ########.fr        #
+#    Updated: 2021/11/22 22:32:24 by antheven         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ SRC		= \
 			main.c \
 			display/screen.c \
 			game/loading.c \
+			game/texture.c \
 			game/loop.c \
 
 OUT		= $(SRC:.c=.o)
@@ -24,7 +25,7 @@ SRCS	= $(addprefix $(SRC_DIR)/, $(SRC))
 OUTS	= $(addprefix $(OUT_DIR)/, $(OUT))
 INC_DIR	= include -I minilibx-linux
 LIBS	= -L minilibx-linux -lmlx -lX11 -lXext
-FLAGS	= -Wall -Wextra -Werror
+FLAGS	= -Wall -Wextra -Werror -fsanitize=address
 
 all: $(BIN)
 
