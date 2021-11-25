@@ -6,7 +6,7 @@
 /*   By: antheven <antheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 14:47:35 by antheven          #+#    #+#             */
-/*   Updated: 2021/11/23 00:42:29 by antheven         ###   ########.fr       */
+/*   Updated: 2021/11/25 18:24:11 by antheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "mlx.h"
 #include "env.h"
 #include "display.h"
+#include "keyboard.h"
 
 void	draw_sprite(t_env *env, int tex_id, int x, int y)
 {
@@ -58,12 +59,14 @@ int	mouse_motion(int x, int y, t_env *env)
 {
 	env->mouse.x = x;
 	env->mouse.y = y;
+	return (1);
 }
 
 int	loop(t_env *env)
 {
 	int	x;
 	int	y;
+	int	i;
 
 	x = 800 / 32 - 1;
 	while (x-- > 0)
@@ -86,9 +89,24 @@ int	loop(t_env *env)
 		draw_tile(env, 1, x, y);
 		draw_tile(env, 1, 0, y);
 	}
+	i = -1;
+	while (++i < 65535)
+		if (env->keyboard.key_press[i])
+		{
+			printf("%i\n", i);
+			if (i == KEY_W)
+				env->player.y--;
+			if (i == KEY_A)
+				env->player.x--;
+			if (i == KEY_S)
+				env->player.y++;
+			if (i == KEY_D)
+				env->player.x++;
+			env->keyboard.key_press[i] = 0;
+		}
 	draw_tile(env, 1, 1, 1);
 	//draw_sprite(env, 2, 2*32, 2*32);
-	draw_sprite(env, 3, env->mouse.x - 16, env->mouse.y - 16);
+	draw_sprite(env, 3, env->player.x - 16, env->player.y - 16);
 	mlx_put_image_to_window(env->display_ptr, env->window, env->screen->ptr, 0, 0);
 	return (0);
 }

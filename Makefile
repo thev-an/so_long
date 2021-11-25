@@ -6,7 +6,7 @@
 #    By: antheven <antheven@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/24 19:16:38 by antheven          #+#    #+#              #
-#    Updated: 2021/11/22 22:32:24 by antheven         ###   ########.fr        #
+#    Updated: 2021/11/25 18:14:25 by antheven         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ SRC		= \
 			main.c \
 			display/screen.c \
 			game/loading.c \
+			game/keyboard.c \
 			game/texture.c \
 			game/loop.c \
 
@@ -38,7 +39,7 @@ $(BIN): $(OUTS)
 .c.o:
 #	@echo "$(SRC_DIR)/$*.c => $(OUT_DIR)/$*.o"
 	@echo "$< => $@"
-	@$(CC) -I $(INC_DIR) -c -o $@ $< $(LIBS) $(CFLAGS) -g3
+	@$(CC) -I $(INC_DIR) -c -o $@ $< $(CFLAGS) -g3
 #	@mkdir -p $(OUT_DIR)/$*.o
 #	@rm  -rf $(OUT_DIR)/$*.o
 #	@$(CC) -I $(INC_DIR) -c -o $(OUT_DIR)/$*.o $(SRC_DIR)/$*.c $(CFLAGS)
