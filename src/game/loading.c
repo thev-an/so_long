@@ -6,7 +6,7 @@
 /*   By: antheven <antheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 14:37:58 by antheven          #+#    #+#             */
-/*   Updated: 2021/11/25 18:24:49 by antheven         ###   ########.fr       */
+/*   Updated: 2021/11/26 15:20:33 by antheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,17 @@ int	load_texture(t_env *env, char *name, char *path)
 
 int	load_game(t_env *env)
 {
+	int	i;
+
 	env->tex = 0;
 	env->mouse.x = 0;
 	env->mouse.y = 0;
-	env->player.x = 100;
-	env->player.y = 100;
+	env->player.x = 1;
+	env->player.y = 1;
+
+	i = -1;
+	while (++i < 65535)
+		env->keyboard.key_press[i] = 0;
 	load_texture(env, "floor", "./floor.xpm");
 	load_texture(env, "wall", "./wall.xpm");
 	load_texture(env, "key", "./key.xpm");
