@@ -6,7 +6,7 @@
 #    By: antheven <antheven@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/24 19:16:38 by antheven          #+#    #+#              #
-#    Updated: 2021/11/25 18:14:25 by antheven         ###   ########.fr        #
+#    Updated: 2021/11/27 00:24:40 by antheven         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRC		= \
 			game/loading.c \
 			game/keyboard.c \
 			game/texture.c \
+			game/player.c \
 			game/loop.c \
 
 OUT		= $(SRC:.c=.o)

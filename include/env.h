@@ -6,12 +6,21 @@
 /*   By: antheven <antheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 14:32:52 by antheven          #+#    #+#             */
-/*   Updated: 2021/11/25 18:24:20 by antheven         ###   ########.fr       */
+/*   Updated: 2021/11/27 00:17:28 by antheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 # define ENV_H
+
+enum e_dir
+{
+	NORTH,
+	SOUTH,
+	EAST,
+	WEST
+};
+typedef enum e_dir t_dir;
 
 struct s_kb
 {

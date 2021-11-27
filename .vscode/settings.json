@@ -3,6 +3,7 @@
 		"loop.h": "c",
 		"mlx.h": "c",
 		"env.h": "c",
-		"display.h": "c"
+		"display.h": "c",
+		"keyboard.h": "c"
 	}
 }

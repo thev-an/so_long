@@ -6,7 +6,7 @@
 /*   By: antheven <antheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 14:47:35 by antheven          #+#    #+#             */
-/*   Updated: 2021/11/26 17:34:19 by antheven         ###   ########.fr       */
+/*   Updated: 2021/11/27 00:26:35 by antheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ void	draw_sprite(t_env *env, int tex_id, int x, int y)
 	int		color;
 
 	tex = get_tex_by_id(env, tex_id);
-	tx = x + 16;
+	tx = x + 32;
 	while (tx-- > x)
 	{
-		ty = y + 16;
+		ty = y + 32;
 		while (ty-- > y)
 		{
-			color = pixel_get(tex, (tx - x) * tex->width / 16, (ty - y) * tex->height / 16);
+			color = pixel_get(tex, (tx - x) * tex->width / 32, (ty - y) * tex->height / 32);
 			if (color != 0xFF00FF)
 				pixel_put(env->screen, tx, ty, color);
 		}
@@ -53,7 +53,7 @@ void	draw_tile(t_env *env, int tex_id, int x, int y)
 		ty = y + 32;
 		while (ty-- > y)
 		{
-			color = pixel_get(tex, (tx - x) * tex->width / 16, (ty - y) * tex->height / 16);
+			color = pixel_get(tex, (tx - x) * tex->width / 32, (ty - y) * tex->height / 32);
 			if (color != 0xFF00FF)
 				pixel_put(env->screen, tx, ty, color);
 		}
@@ -73,10 +73,10 @@ int	loop(t_env *env)
 	int	y;
 	int	i;
 
-	x = 800 / 16 - 1;
+	x = 800 / 32 - 1;
 	while (x-- > 0)
 	{
-		y = 600 / 16;
+		y = 600 / 32;
 		while (y-- > 0)
 			draw_tile(env, 0, x, y);
 	}
@@ -87,8 +87,8 @@ int	loop(t_env *env)
 		draw_tile(env, 1, x, y);
 		draw_tile(env, 1, x, 0);
 	}
-	x = 800 / 16 - 1;
-	y = 600 / 16;
+	x = 800 / 32 - 1;
+	y = 600 / 32;
 	while (y-- > 0)
 	{
 		draw_tile(env, 1, x, y);
