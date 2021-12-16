@@ -6,7 +6,7 @@
 /*   By: antheven <antheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 14:27:08 by antheven          #+#    #+#             */
-/*   Updated: 2021/11/25 18:15:23 by antheven         ###   ########.fr       */
+/*   Updated: 2021/12/16 13:31:17 by antheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ unsigned int	pixel_get(t_img *data, int x, int y)
 int	init_screen(t_env *env)
 {
 	env->display_ptr = mlx_init();
+	if (!env->display_ptr)
+		return (0);
 	env->window = mlx_new_window(env->display_ptr, 800, 600, "test");
 	return (1);
 }
