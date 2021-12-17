@@ -6,7 +6,7 @@
 /*   By: antheven <antheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 14:47:35 by antheven          #+#    #+#             */
-/*   Updated: 2021/11/27 00:26:35 by antheven         ###   ########.fr       */
+/*   Updated: 2021/12/17 19:23:04 by antheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int	loop(t_env *env)
 	int	i;
 
 	x = 800 / 32 - 1;
+	i = 0;
 	while (x-- > 0)
 	{
 		y = 600 / 32;
@@ -93,6 +94,25 @@ int	loop(t_env *env)
 	{
 		draw_tile(env, 1, x, y);
 		draw_tile(env, 1, 0, y);
+	}
+	y = env->map->height;
+	while (y-- > 0)
+	{
+		x = env->map->width;
+		while (x-- > 0)
+		{
+			i = env->map->content[y*(env->map->width+1) + x];
+			if (i == 'C')
+			{
+				i = '2';
+				if (env->player.x == x && env->player.y == y)
+					env->map->content[y * (env->map->width + 1) + x] = '0';
+			}
+			if (i == 'E' || i == 'P')
+				i = '0';
+			i -= '0';
+			draw_tile(env, i, x, y);
+		}
 	}
 	key_loop(env);
 	draw_tile(env, 1, 1, 1);

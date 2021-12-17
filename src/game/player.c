@@ -6,7 +6,7 @@
 /*   By: antheven <antheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 00:15:30 by antheven          #+#    #+#             */
-/*   Updated: 2021/11/27 00:23:45 by antheven         ###   ########.fr       */
+/*   Updated: 2021/12/17 19:27:00 by antheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,25 @@
 
 void	move(t_env *env, t_dir dir)
 {
+	int	x;
+	int	y;
+
+	x = env->player.x;
+	y = env->player.y;
 	if (dir == NORTH)
-		if (env->player.y > 0)
-			env->player.y--;
+		if (y > 0)
+			if (env->map->content[(y - 1) * (env->map->width + 1) + x] != '1')
+				env->player.y--;
 	if (dir == EAST)
-		if (env->player.x > 0)
-			env->player.x--;
+		if (x > 0)
+			if (env->map->content[y * (env->map->width + 1) + (x - 1)] != '1')
+				env->player.x--;
 	if (dir == SOUTH)
-		if (env->player.y < 10)
-			env->player.y++;
+		if (y < env->map->height)
+			if (env->map->content[(y + 1) * (env->map->width + 1) + x] != '1')
+				env->player.y++;
 	if (dir == WEST)
-		if (env->player.x < 10)
-			env->player.x++;
+		if (x < env->map->width)
+			if (env->map->content[y * (env->map->width + 1) + (x + 1)] != '1')
+				env->player.x++;
 }

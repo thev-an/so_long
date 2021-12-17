@@ -1,35 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   append.c                                           :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antheven <antheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/16 13:24:55 by antheven          #+#    #+#             */
-/*   Updated: 2021/12/17 15:14:07 by antheven         ###   ########.fr       */
+/*   Created: 2021/12/17 14:47:06 by antheven          #+#    #+#             */
+/*   Updated: 2021/12/17 14:49:18 by antheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
 #include <stdlib.h>
 #include "util.h"
 
-char	*append(char *s1, char *s2)
+int	error(char *s)
 {
-	int		s1s;
-	int		s2s;
-	char	*s3;
-	int		i;
-
-	i = 0;
-	s1s = ft_strlen(s1);
-	s2s = ft_strlen(s2);
-	s3 = malloc(sizeof(char) * (s1s + s2s + 1));
-	if (!s3)
-		return (0);
-	*(s3 + s2s + s1s) = '\0';
-	while (*s1)
-		*(s3 + i++) = *s1++;
-	while (*s2)
-		*(s3 + i++) = *s2++;
-	return (s3);
+	write(1, s, ft_strlen(s));
+	exit(EXIT_FAILURE);
 }

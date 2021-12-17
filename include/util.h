@@ -1,35 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   append.c                                           :+:      :+:    :+:   */
+/*   util.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antheven <antheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/16 13:24:55 by antheven          #+#    #+#             */
-/*   Updated: 2021/12/17 15:14:07 by antheven         ###   ########.fr       */
+/*   Created: 2021/12/17 14:38:35 by antheven          #+#    #+#             */
+/*   Updated: 2021/12/17 14:49:30 by antheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "util.h"
+#ifndef UTIL_H
+# define UTIL_H
 
-char	*append(char *s1, char *s2)
-{
-	int		s1s;
-	int		s2s;
-	char	*s3;
-	int		i;
+char	*append(char *s1, char *s2);
+int		ft_strlen(char *s);
+int	error(char *s);
 
-	i = 0;
-	s1s = ft_strlen(s1);
-	s2s = ft_strlen(s2);
-	s3 = malloc(sizeof(char) * (s1s + s2s + 1));
-	if (!s3)
-		return (0);
-	*(s3 + s2s + s1s) = '\0';
-	while (*s1)
-		*(s3 + i++) = *s1++;
-	while (*s2)
-		*(s3 + i++) = *s2++;
-	return (s3);
-}
+#endif

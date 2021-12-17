@@ -6,7 +6,7 @@
 /*   By: antheven <antheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 14:37:58 by antheven          #+#    #+#             */
-/*   Updated: 2021/11/26 15:20:33 by antheven         ###   ########.fr       */
+/*   Updated: 2021/12/17 16:09:57 by antheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "env.h"
 #include "loop.h"
 #include "keyboard.h"
+#include "level.h"
 
 int	get_new_texture(t_env *env)
 {
@@ -87,6 +88,7 @@ int	load_game(t_env *env)
 	load_texture(env, "wall", "./wall.xpm");
 	load_texture(env, "key", "./key.xpm");
 	load_texture(env, "player", "./player.xpm");
+	env->map = load_level(env->map_file);
 	env->screen = get_new_image(env, 800, 600, 0x00FF00);
 	mlx_loop_hook(env->display_ptr, loop, env);
 	mlx_hook(env->window, 6, 1L<<6, mouse_motion, env);

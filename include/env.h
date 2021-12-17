@@ -6,12 +6,14 @@
 /*   By: antheven <antheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 14:32:52 by antheven          #+#    #+#             */
-/*   Updated: 2021/11/27 00:17:28 by antheven         ###   ########.fr       */
+/*   Updated: 2021/12/17 16:10:40 by antheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 # define ENV_H
+
+# include "level.h"
 
 enum e_dir
 {
@@ -69,6 +71,8 @@ struct s_env
 	t_plr	player;
 	t_list	*tex;
 	t_mouse	mouse;
+	char	*map_file;
+	t_map	*map;
 };
 typedef struct s_env	t_env;
 

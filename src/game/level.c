@@ -6,14 +6,17 @@
 /*   By: antheven <antheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 11:39:56 by antheven          #+#    #+#             */
-/*   Updated: 2021/12/16 17:58:16 by antheven         ###   ########.fr       */
+/*   Updated: 2021/12/17 16:08:47 by antheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
+#include "util.h"
 #include "level.h"
 
 t_map	*init_map(char *lvl)
@@ -25,53 +28,92 @@ t_map	*init_map(char *lvl)
 		return (0);
 	map->content = lvl;
 	map->width = 0;
+	map->height = 0;
 	return (map);
 }
 
-t_map	parse_level(char *lvl)
+t_map	*parse_level(char *lvl)
 {
 	int		len;
+	int		i;
 	t_map	*map;
 
-	len = ft_strlen(lvl);
 	map = init_map(lvl);
-	while (*lvl != '\n')
+	while (*lvl && *lvl != '\n')
 	{
-		if (*lvl++ != '1')
-			error();
+		write(1, lvl, 1);
+		if (*lvl != '1')
+			error("Error\nparsing[first line]\n");
+		map->width++;
+		lvl++;
 	}
+	write(1, "\n", 1);
+	len = ft_strlen(lvl);
+		write(1, lvl, len);
+	write(1, "\n", 1);
+	i = 0;
 	while (*(lvl + --len) != '\n')
-		if ((*lvl + len) != '1')
-			error();
+	{
+		write(1, lvl + len, 1);
+		if (*(lvl + len) != '1')
+			error("Error\nparsing[last line]\n");
+		i++;
+	}
+	write(1, "\n", 1);
 	while (len > 0)
 	{
-		if (!((*lvl + len) == '0' && (*lvl + len) == '1' && (*lvl + len) == 'C'
-				&& (*lvl + len) == 'E' && (*lvl + len) == 'P'))
-			error();
+		if (!(*(lvl + len) == '0' || *(lvl + len) == '1' || *(lvl + len) == 'C'
+				|| *(lvl + len) == 'E' || *(lvl + len) == 'P'))
+		{
+			if (*(lvl + len) != '\n')
+			{
+				error("Error\nparsing[block invalid]\n");
+			}
+			else
+			{
+			}
+		}
 		if (*(lvl + len) == '\n')
-			if (!(*(lvl + len - 1) == '1' && *(lvl + len + 1 == '1')))
-				error();
+		{
+			if (!(*(lvl + len - 1) == '1' && *(lvl + len + 1) == '1'))
+				error("Error\nparsing[wall invalid]\n");
+			//printf("map=%d\ni=%d\n", map->width, i);
+			if (i != map->width)
+				error("Error\nparsing[invalid size]\n");
+			i = 0;
+			len--;
+		}
+		i++;
 		len--;
 	}
+	map->height = ft_strlen(map->content) / map->width;
+	printf("%d\n", map->height);
+	return (map);
 }
 
-int	load_level(char *lvl_file)
+t_map	*load_level(char *lvl_file)
 {
 	int		fd;
 	char	*buffer;
 	char	*map;
 	char	*swap;
 
-	fd = open(lvl_file);
+	fd = open(lvl_file, O_RDONLY);
+	buffer = malloc(2);
+	*(buffer + 1) = 0;
+	map = malloc(1);
+	*map = 0;
 	if (fd > 0)
 	{
-		while (read(fd, buffer, 1024) > 0)
+		while (read(fd, buffer, 1) > 0)
 		{
+			//write(1, lvl_file, ft_strlen(lvl_file));
+			//printf("%s", buffer);
 			swap = append(map, buffer);
 			free(map);
 			map = swap;
 		}
+		return (parse_level(map));
 	}
-	parse_level(map);
-	return (map);
+	return (NULL);
 }
