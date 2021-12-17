@@ -6,7 +6,7 @@
 /*   By: antheven <antheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 14:47:35 by antheven          #+#    #+#             */
-/*   Updated: 2021/12/17 19:23:04 by antheven         ###   ########.fr       */
+/*   Updated: 2021/12/17 21:01:08 by antheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,18 @@ int	loop(t_env *env)
 			{
 				i = '2';
 				if (env->player.x == x && env->player.y == y)
+				{
 					env->map->content[y * (env->map->width + 1) + x] = '0';
+					env->player.points++;
+					printf("points/max_points\n%d/%d\n", env->player.points, env->map->max_points);
+				}
 			}
-			if (i == 'E' || i == 'P')
+			if (i == 'E')
+			{
+				i = '4';
+				draw_tile(env, 4, x, y);
+			}
+			if (i == 'P')
 				i = '0';
 			i -= '0';
 			draw_tile(env, i, x, y);

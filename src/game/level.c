@@ -6,7 +6,7 @@
 /*   By: antheven <antheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 11:39:56 by antheven          #+#    #+#             */
-/*   Updated: 2021/12/17 16:08:47 by antheven         ###   ########.fr       */
+/*   Updated: 2021/12/17 20:54:37 by antheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_map	*init_map(char *lvl)
 	map->content = lvl;
 	map->width = 0;
 	map->height = 0;
+	map->max_points = 0;
 	return (map);
 }
 
@@ -73,6 +74,8 @@ t_map	*parse_level(char *lvl)
 			{
 			}
 		}
+		if (*(lvl + len) == 'C')
+			map->max_points++;
 		if (*(lvl + len) == '\n')
 		{
 			if (!(*(lvl + len - 1) == '1' && *(lvl + len + 1) == '1'))

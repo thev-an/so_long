@@ -6,7 +6,7 @@
 /*   By: antheven <antheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 14:32:52 by antheven          #+#    #+#             */
-/*   Updated: 2021/12/17 16:10:40 by antheven         ###   ########.fr       */
+/*   Updated: 2021/12/17 20:53:08 by antheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ struct s_player
 {
 	int		x;
 	int		y;
+	int		points;
 	char	alive;
 };
 typedef struct s_player	t_plr;
