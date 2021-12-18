@@ -6,7 +6,7 @@
 /*   By: antheven <antheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 14:37:58 by antheven          #+#    #+#             */
-/*   Updated: 2021/12/18 02:48:47 by antheven         ###   ########.fr       */
+/*   Updated: 2021/12/18 03:54:04 by antheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,6 @@
 #include "loop.h"
 #include "keyboard.h"
 #include "level.h"
-
-int	init_env(t_env *env)
-{
-	int	i;
-
-	env->tex = 0;
-	env->mouse.x = 0;
-	env->mouse.y = 0;
-	env->player.points = 0;
-	env->player.moves = 0;
-	i = -1;
-	while (++i < 65535)
-		env->keyboard.key_press[i] = 0;
-	return (1);
-}
 
 int	load_texture(t_env *env, char *name, char *path)
 {
@@ -72,7 +57,11 @@ int	load_textures(t_env *env)
 
 int	load_screen(t_env *env)
 {
-	env->screen = get_new_image(env, 800, 600, 0x00FF00);
+	if (env->map->max_points == 0)
+	{
+		printf("Error\nparsing[mini 1 collectible]\n");
+		end_level(env);
+	}
 	mlx_loop_hook(env->display_ptr, loop, env);
 	mlx_hook(env->window, 6, 1L << 6, mouse_motion, env);
 	mlx_hook(env->window, 2, 1L << 0, key_press, env);
@@ -82,14 +71,32 @@ int	load_screen(t_env *env)
 	return (1);
 }
 
+int	init_env(t_env *env)
+{
+	int	i;
+
+	env->tex = 0;
+	env->mouse.x = 0;
+	env->mouse.y = 0;
+	env->player.points = 0;
+	env->player.moves = 0;
+	env->player.x = -1;
+	env->player.y = -1;
+	i = -1;
+	while (++i < 65535)
+		env->keyboard.key_press[i] = 0;
+	load_textures(env);
+	env->map = load_level(env->map_file);
+	env->screen = get_new_image(env, 800, 600, 0x00FF00);
+	return (1);
+}
+
 int	load_game(t_env *env)
 {
 	int	x;
 	int	y;
 
 	init_env(env);
-	load_textures(env);
-	env->map = load_level(env->map_file);
 	y = env->map->height;
 	while (y-- > 0)
 	{
@@ -103,6 +110,11 @@ int	load_game(t_env *env)
 				break ;
 			}
 		}
+	}
+	if (env->player.x == -1 && env->player.y == -1)
+	{
+		printf("Error\nparsing[need player]\n");
+		end_level(env);
 	}
 	load_screen(env);
 	return (1);

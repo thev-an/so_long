@@ -6,7 +6,7 @@
 #    By: antheven <antheven@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/24 19:16:38 by antheven          #+#    #+#              #
-#    Updated: 2021/12/18 02:41:58 by antheven         ###   ########.fr        #
+#    Updated: 2021/12/18 03:25:47 by antheven         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ OUT_DIR	= src
 SRC		= \
 			main.c \
 			util/ft_strlen.c \
+			util/ft_strncmp.c \
 			util/append.c \
 			util/error.c \
 			display/screen.c \

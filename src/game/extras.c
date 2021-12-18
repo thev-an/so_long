@@ -6,7 +6,7 @@
 /*   By: antheven <antheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/18 01:37:28 by antheven          #+#    #+#             */
-/*   Updated: 2021/12/18 02:35:16 by antheven         ###   ########.fr       */
+/*   Updated: 2021/12/18 03:57:26 by antheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	check_exit(t_env *env, int *t, int x, int y)
 			}
 			return (1);
 		}
+		return (1);
 	}
 	return (0);
 }
@@ -51,7 +52,9 @@ int	draw_level(t_env *env)
 	int	x;
 	int	y;
 	int	i;
+	int	has_exit;
 
+	has_exit = 0;
 	y = env->map->height;
 	while (y-- > 0)
 	{
@@ -60,12 +63,12 @@ int	draw_level(t_env *env)
 		{
 			i = env->map->content[y * (env->map->width + 1) + x];
 			check_collectible(env, &i, x, y);
-			check_exit(env, &i, x, y);
+			has_exit += check_exit(env, &i, x, y);
 			if (i == 'P')
 				i = '0';
 			i -= '0';
 			draw_tile(env, i, x, y);
 		}
 	}
-	return (1);
+	return (has_exit);
 }

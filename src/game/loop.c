@@ -6,7 +6,7 @@
 /*   By: antheven <antheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 14:47:35 by antheven          #+#    #+#             */
-/*   Updated: 2021/12/18 01:43:06 by antheven         ###   ########.fr       */
+/*   Updated: 2021/12/18 03:57:50 by antheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,11 @@ int	loop(t_env *env)
 		while (y-- > 0)
 			draw_tile(env, 0, x, y);
 	}
-	draw_level(env);
+	if (draw_level(env) == 0)
+	{
+		printf("Error\nparsing[mini 1 exit]\n");
+		end_level(env);
+	}
 	key_loop(env);
 	draw_tile(env, 3, env->player.x, env->player.y);
 	draw_buffer(env);
