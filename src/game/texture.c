@@ -6,7 +6,7 @@
 /*   By: antheven <antheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 22:31:08 by antheven          #+#    #+#             */
-/*   Updated: 2021/11/22 22:56:13 by antheven         ###   ########.fr       */
+/*   Updated: 2021/12/18 02:05:29 by antheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,66 @@ t_img	*get_tex_by_id(t_env *env, int id)
 			return (0);
 	}
 	return (tex_list->data);
+}
+
+t_list	*new_image_list(void)
+{
+	t_list	*l;
+	t_img	*img;
+
+	l = malloc(sizeof(t_list));
+	if (!l)
+		return (NULL);
+	l->next = 0;
+	img = malloc(sizeof(t_img));
+	if (!img)
+	{
+		free(l);
+		return (NULL);
+	}
+	l->data = img;
+	return (l);
+}
+
+int	get_new_texture(t_env *env)
+{
+	t_list	*gl;
+	t_list	*l;
+	int		i;
+
+	gl = env->tex;
+	i = 0;
+	l = new_image_list();
+	if (!l)
+		return (0);
+	if (gl)
+	{
+		i++;
+		while (gl->next)
+		{
+			gl = gl->next;
+			i++;
+		}
+		gl->next = l;
+	}
+	else
+		env->tex = l;
+	return (i);
+}
+
+int	unload_textures(t_env *env)
+{
+	t_list	*tex;
+	t_list	*next;
+
+	tex = env->tex;
+	while (tex)
+	{
+		mlx_destroy_image(env->display_ptr, ((t_img *)(tex->data))->ptr);
+		next = tex->next;
+		free(tex->data);
+		free(tex);
+		tex = next;
+	}
+	return (1);
 }

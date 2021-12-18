@@ -6,7 +6,7 @@
 /*   By: antheven <antheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 17:56:59 by antheven          #+#    #+#             */
-/*   Updated: 2021/11/27 00:27:26 by antheven         ###   ########.fr       */
+/*   Updated: 2021/12/18 01:05:14 by antheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	key_loop(t_env *env)
 	{
 		if (env->keyboard.key_press[i])
 		{
-			printf("key_pressed=%i\n", i);
 			if (i == KEY_W)
 				move(env, NORTH);
 			if (i == KEY_A)
@@ -45,6 +44,8 @@ void	key_loop(t_env *env)
 				move(env, SOUTH);
 			if (i == KEY_D)
 				move(env, WEST);
+			if (i == KEY_ESC)
+				end_level(env);
 		}
 	}
 }

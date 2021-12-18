@@ -6,7 +6,7 @@
 /*   By: antheven <antheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 14:47:35 by antheven          #+#    #+#             */
-/*   Updated: 2021/12/17 21:01:08 by antheven         ###   ########.fr       */
+/*   Updated: 2021/12/18 01:43:06 by antheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	draw_sprite(t_env *env, int tex_id, int x, int y)
 	int		tx;
 	int		ty;
 	int		color;
+	t_mouse	red_pt;
 
 	tex = get_tex_by_id(env, tex_id);
 	tx = x + 32;
@@ -30,7 +31,9 @@ void	draw_sprite(t_env *env, int tex_id, int x, int y)
 		ty = y + 32;
 		while (ty-- > y)
 		{
-			color = pixel_get(tex, (tx - x) * tex->width / 32, (ty - y) * tex->height / 32);
+			red_pt.x = (tx - x) * tex->width / 32;
+			red_pt.y = (ty - y) * tex->height / 32;
+			color = pixel_get(tex, red_pt.x, red_pt.y);
 			if (color != 0xFF00FF)
 				pixel_put(env->screen, tx, ty, color);
 		}
@@ -43,6 +46,7 @@ void	draw_tile(t_env *env, int tex_id, int x, int y)
 	int		tx;
 	int		ty;
 	int		color;
+	t_mouse	red_pt;
 
 	x *= 32;
 	y *= 32;
@@ -53,7 +57,9 @@ void	draw_tile(t_env *env, int tex_id, int x, int y)
 		ty = y + 32;
 		while (ty-- > y)
 		{
-			color = pixel_get(tex, (tx - x) * tex->width / 32, (ty - y) * tex->height / 32);
+			red_pt.x = (tx - x) * tex->width / 32;
+			red_pt.y = (ty - y) * tex->height / 32;
+			color = pixel_get(tex, red_pt.x, red_pt.y);
 			if (color != 0xFF00FF)
 				pixel_put(env->screen, tx, ty, color);
 		}
@@ -71,62 +77,17 @@ int	loop(t_env *env)
 {
 	int	x;
 	int	y;
-	int	i;
 
-	x = 800 / 32 - 1;
-	i = 0;
+	x = 800 / 32;
 	while (x-- > 0)
 	{
-		y = 600 / 32;
+		y = 600 / 32 + 1;
 		while (y-- > 0)
 			draw_tile(env, 0, x, y);
 	}
-	x = 800 / 32;
-	y = 600 / 32;
-	while (x-- > 0)
-	{
-		draw_tile(env, 1, x, y);
-		draw_tile(env, 1, x, 0);
-	}
-	x = 800 / 32 - 1;
-	y = 600 / 32;
-	while (y-- > 0)
-	{
-		draw_tile(env, 1, x, y);
-		draw_tile(env, 1, 0, y);
-	}
-	y = env->map->height;
-	while (y-- > 0)
-	{
-		x = env->map->width;
-		while (x-- > 0)
-		{
-			i = env->map->content[y*(env->map->width+1) + x];
-			if (i == 'C')
-			{
-				i = '2';
-				if (env->player.x == x && env->player.y == y)
-				{
-					env->map->content[y * (env->map->width + 1) + x] = '0';
-					env->player.points++;
-					printf("points/max_points\n%d/%d\n", env->player.points, env->map->max_points);
-				}
-			}
-			if (i == 'E')
-			{
-				i = '4';
-				draw_tile(env, 4, x, y);
-			}
-			if (i == 'P')
-				i = '0';
-			i -= '0';
-			draw_tile(env, i, x, y);
-		}
-	}
+	draw_level(env);
 	key_loop(env);
-	draw_tile(env, 1, 1, 1);
-	//draw_sprite(env, 2, 2*32, 2*32);
 	draw_tile(env, 3, env->player.x, env->player.y);
-	mlx_put_image_to_window(env->display_ptr, env->window, env->screen->ptr, 0, 0);
+	draw_buffer(env);
 	return (0);
 }

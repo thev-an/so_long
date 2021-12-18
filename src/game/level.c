@@ -6,7 +6,7 @@
 /*   By: antheven <antheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 11:39:56 by antheven          #+#    #+#             */
-/*   Updated: 2021/12/17 20:54:37 by antheven         ###   ########.fr       */
+/*   Updated: 2021/12/18 02:34:41 by antheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "mlx.h"
 #include "util.h"
+#include "env.h"
 #include "level.h"
 
 t_map	*init_map(char *lvl)
@@ -33,6 +35,35 @@ t_map	*init_map(char *lvl)
 	return (map);
 }
 
+int	parse_blocks(t_map *map, char *lvl, int len, int i)
+{
+	while (len >= 0)
+	{
+		if (!(*(lvl + len) == '0' || *(lvl + len) == '1' || *(lvl + len) == 'C'
+				|| *(lvl + len) == 'E' || *(lvl + len) == 'P'))
+		{
+			if (*(lvl + len) != '\n')
+			{
+				error("Error\nparsing[block invalid]\n");
+			}
+		}
+		if (*(lvl + len) == 'C')
+			map->max_points++;
+		if (*(lvl + len) == '\n' || len == 0)
+		{
+			if (!(*(lvl + len - 1) == '1' && *(lvl + len + 1) == '1'))
+				error("Error\nparsing[wall invalid]\n");
+			if (i != map->width)
+				error("Error\nparsing[invalid size]\n");
+			i = 0;
+			len--;
+		}
+		i++;
+		len--;
+	}
+	return (1);
+}
+
 t_map	*parse_level(char *lvl)
 {
 	int		len;
@@ -42,55 +73,21 @@ t_map	*parse_level(char *lvl)
 	map = init_map(lvl);
 	while (*lvl && *lvl != '\n')
 	{
-		write(1, lvl, 1);
 		if (*lvl != '1')
 			error("Error\nparsing[first line]\n");
 		map->width++;
 		lvl++;
 	}
-	write(1, "\n", 1);
 	len = ft_strlen(lvl);
-		write(1, lvl, len);
-	write(1, "\n", 1);
 	i = 0;
 	while (*(lvl + --len) != '\n')
 	{
-		write(1, lvl + len, 1);
 		if (*(lvl + len) != '1')
 			error("Error\nparsing[last line]\n");
 		i++;
 	}
-	write(1, "\n", 1);
-	while (len > 0)
-	{
-		if (!(*(lvl + len) == '0' || *(lvl + len) == '1' || *(lvl + len) == 'C'
-				|| *(lvl + len) == 'E' || *(lvl + len) == 'P'))
-		{
-			if (*(lvl + len) != '\n')
-			{
-				error("Error\nparsing[block invalid]\n");
-			}
-			else
-			{
-			}
-		}
-		if (*(lvl + len) == 'C')
-			map->max_points++;
-		if (*(lvl + len) == '\n')
-		{
-			if (!(*(lvl + len - 1) == '1' && *(lvl + len + 1) == '1'))
-				error("Error\nparsing[wall invalid]\n");
-			//printf("map=%d\ni=%d\n", map->width, i);
-			if (i != map->width)
-				error("Error\nparsing[invalid size]\n");
-			i = 0;
-			len--;
-		}
-		i++;
-		len--;
-	}
+	parse_blocks(map, lvl, len, i);
 	map->height = ft_strlen(map->content) / map->width;
-	printf("%d\n", map->height);
 	return (map);
 }
 
@@ -110,13 +107,27 @@ t_map	*load_level(char *lvl_file)
 	{
 		while (read(fd, buffer, 1) > 0)
 		{
-			//write(1, lvl_file, ft_strlen(lvl_file));
-			//printf("%s", buffer);
 			swap = append(map, buffer);
 			free(map);
 			map = swap;
 		}
+		free(buffer);
 		return (parse_level(map));
 	}
 	return (NULL);
+}
+
+int	end_level(t_env *env)
+{
+	free(env->map->content);
+	free(env->map);
+	mlx_destroy_image(env->display_ptr, env->screen->ptr);
+	free(env->screen);
+	unload_textures(env);
+	mlx_destroy_window(env->display_ptr, env->window);
+	mlx_destroy_display(env->display_ptr);
+	mlx_loop_end(env->display_ptr);
+	free(env->display_ptr);
+	exit(EXIT_SUCCESS);
+	return (0);
 }

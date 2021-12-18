@@ -6,7 +6,7 @@
 /*   By: antheven <antheven@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 14:27:08 by antheven          #+#    #+#             */
-/*   Updated: 2021/12/16 13:31:17 by antheven         ###   ########.fr       */
+/*   Updated: 2021/12/18 02:46:29 by antheven         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,18 @@ int	init_screen(t_env *env)
 	if (!env->display_ptr)
 		return (0);
 	env->window = mlx_new_window(env->display_ptr, 800, 600, "test");
+	return (1);
+}
+
+int	draw_buffer(t_env *env)
+{
+	void	*disp;
+	void	*win;
+	void	*buf;
+
+	disp = env->display_ptr;
+	win = env->window;
+	buf = env->screen->ptr;
+	mlx_put_image_to_window(disp, win, buf, 0, 0);
 	return (1);
 }
